@@ -1,0 +1,88 @@
+{% extends "tareas/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <section class="section-content py-3">
+            <div class="row">
+                <aside class="col-lg-3"> 
+        <!-- ============= COMPONENT ============== -->
+                    <nav class="sidebar card py-2">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'crear_posteo' %}"> Crear Tarea </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}"> Tareas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tareas_completadas' %}"> Tareas Completadas </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}"> LogOut </a>
+                        </li>
+                    </ul>
+                    </nav>
+        <!-- ============= COMPONENT END// ============== -->	
+                </aside>
+                <main class="col-lg-9 ">
+                    <div>
+                        <h1>Tareas Completadas</h1>
+                            <div class="post-grid">
+                                {% for post in completed_tasks  %}
+                                    <div class="post-card">
+                                        <h2>{{post.title}}</h2>
+                                        <h4>{{post.etiqueta_tarea}}</h4>
+                                        <h4>{{post.tzone}}</h4>
+                                        <p>{{post.fecha_limite}}</p>
+                                        <button class="btn btn-secondary" data-toggle="modal" data-target="#detalleModal{{ post.id }}">Ver Detalle</button>
+                                    </div>
+                                    <!-- Modal para cada posteo -->
+                                    <div class="modal fade" id="detalleModal{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="detalleModalLabel">Detalle de {{ post.title }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h2>{{ post.title }}</h2>
+                                                    <h6>{{ post.tzone }}</h6>
+                                                    <h7>Fecha Limite : {{ post.fecha_limite }}</h7>
+                                                    <h5>Detalle:</h5>
+                                                    <p>{{ post.content }}</p>
+                                                    <h5>Comentario:</h5>
+                                                    <p>{{ post.observations }}</p>
+                                                    <form action="{% url 'new_status' post.id %}" method="POST" class="mb-4">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="new_status">Comentario:</label>
+                                                            <input type="text" id="new_status" name="new_status" class="form-control" required>
+                                                        </div>
+                                                        <button class="btn btn-primary mt-2" type="submit">Guardar Cambios</button>
+                                                    </form>
+                                                    <div class="card-buttons">
+                                                        <form action="{% url 'cambiar_status' post.id %}" method='POST' class="mb-2">
+                                                            {% csrf_token %}
+                                                            <button class="btn btn-primary" type="submit">Completar</button>
+                                                        </form>
+                                                        <a class="btn btn-success mb-2" href="{% url 'modificar_posteo' post.id %}">Modificar</a>
+                                                        <a class="btn btn-info mb-2" href="{% url 'home' %}">Retomar</a>
+                                                        <form action="{% url 'eliminar_posteo' post.id %}" method='POST' class="mb-2">
+                                                            {% csrf_token %}
+                                                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </section>
+                    </div>
+                </main>
+            
+
+{% endblock content %}

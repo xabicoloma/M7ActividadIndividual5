@@ -13,4 +13,5 @@ urlpatterns = [
     path('eliminar_posteo/<pk>/', PostDeleteView.as_view(), name='eliminar_posteo'),
     path('cambiar_status/<id>/', views.cambiar_status, name='cambiar_status'),
     path('new_status/<id>/', views.new_status, name='new_status'),
+    path('tareas_completadas/', views.completed_task_list, name='tareas_completadas'),
 ]

@@ -19,12 +19,17 @@ class PostListView(ListView):
     context_object_name = 'context'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        filtro = self.request.GET.get('filtro')
+        queryset = Post.objects.all()
+        
 
-        if filtro:
-            queryset = queryset.filter(tzone__contains=filtro)
+        etiqueta_tarea = self.request.GET.get('etiqueta_tarea')
+        if etiqueta_tarea:
+            queryset = queryset.filter(etiqueta_tarea=etiqueta_tarea)
+        
+        queryset = queryset.exclude(tzone='Completada')
+        
         return queryset
+
 
 
 class PostCreateView(CreateView):
@@ -58,3 +63,10 @@ def new_status(request, id):
         post.save()
         return redirect('home')
 
+def main_task_list(request):
+    tasks = Post.objects.exclude(tzone='Completada')
+    return render(request, 'home', {'tasks': tasks})
+
+def completed_task_list(request):
+    completed_tasks = Post.objects.filter(tzone='Completada')
+    return render(request, 'tareas/tareas_completadas.html', {'completed_tasks': completed_tasks})

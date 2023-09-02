@@ -1,58 +1,54 @@
 {% extends "tareas/base.html" %}
 {% load static %}
 {% block content %}
+<div class="container">
+    <section class="section-content py-3">
+        <div class="row">
+            <aside class="col-lg-3"> 
+    <!-- ============= COMPONENT ============== -->
+                <nav class="sidebar card py-2">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'crear_posteo' %}"> Crear Tarea </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}"> Tareas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tareas_completadas' %}"> Tareas Completadas </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}"> LogOut </a>
+                    </li>
+                </ul>
+                </nav>
+    <!-- ============= COMPONENT END// ============== -->	
+            </aside>
+            <main class="col-lg-9 ">
+                <div>
+                    <h1>Tareas</h1>
+                    <form method="get">
+                        <label for="etiqueta_tarea">Etiqueta de Tarea:</label>
+                        <select id="etiqueta_tarea" name="etiqueta_tarea">
+                            <option value="">Todas</option>
+                            <option value="1">Estudio</option>
+                            <option value="2">Deporte</option>
+                            <option value="3">Recreacion</option>
+                            <option value="4">Familia</option>
 
-
-
-    <h1>Bienvenido {{user.username}}</h1>
-    <div class="container">
-        <section class="section-content py-3">
-            <div class="row">
-                <aside class="col-lg-3"> 
-        <!-- ============= COMPONENT ============== -->
-                    <nav class="sidebar card py-2">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'crear_posteo' %}"> Crear Tarea </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"> About page </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}"> LogOut </a>
-                        </li>
-                    </ul>
-                    </nav>
-        <!-- ============= COMPONENT END// ============== -->	
-                </aside>
-                <main class="col-lg-9 ">
-                    <form action="" method="GET">
-                        <div class="filtro-colapsable">
-                            <div class="contenido-colapsable">
-                                <label>
-                                    <input type="radio" name="filtro" value="Completada"> Completada
-                                </label>
-                                <label>
-                                    <input type="radio" name="filtro" value="En Progreso"> En progreso
-                                </label>
-                                <label>
-                                    <input type="radio" name="filtro" value="Pendiente"> Pendiente
-                                </label>
-                                <label>
-                                    <input type="radio" name="filtro" value=""> Todas
-                                </label>
-                            </div>
-                        </div>
-                        <button type="submit">Buscar</button>
+                            {% for etiqueta in etiquetas %}
+                                <option value="{{ etiqueta.id }}">{{ etiqueta.tipo }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Filtrar">
                     </form>
-                    <div>
                         <div class="post-grid">
                             {% for post in context %}
                                 <div class="post-card">
                                     <h2>{{post.title}}</h2>
                                     <h4>{{post.etiqueta_tarea}}</h4>
                                     <h4>{{post.tzone}}</h4>
-                                    <p>{{post.fecha_limite}}</p>
+                                    <p>Fecha de Termino: {{post.fecha_limite}}</p>
                                     <button class="btn btn-secondary" data-toggle="modal" data-target="#detalleModal{{ post.id }}">Ver Detalle</button>
                                 </div>
                                 <!-- Modal para cada posteo -->
@@ -99,11 +95,10 @@
                                 </div>
                             {% endfor %}
                         </div>
-                    </div>
-                </main>
-            </div>
-        </section>
-    </div>
+                    </section>
+                </div>
+            </main>
+
 
 {% endblock content %}
 
