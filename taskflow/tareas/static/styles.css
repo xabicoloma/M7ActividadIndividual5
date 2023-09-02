@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+    /* Agrega estilos al contenido principal aquí */
+}
+
+.footer {
+    height: 100px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+.custom-image {
+    max-width: 100%;
+    height: auto;
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+    }
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.post-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-buttons {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}

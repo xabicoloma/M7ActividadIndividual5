@@ -1,0 +1,12 @@
+{% extends "tareas/base.html" %}
+{% block content %}
+
+<h2>Login</h2>
+
+    <form class="forms" method='POST'>
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button type='submit'> inicio sesion</button>
+    </form>
+
+{% endblock content %}
